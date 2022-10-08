@@ -5,6 +5,8 @@ import (
 
 	"CloudRestaurant/controller"
 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +16,11 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-
+	_, err = tool.OrmEngine(cfg)
+	if err != nil {
+		fmt.Printf(err.Error())
+		return
+	}
 	app := gin.Default()
 	registerRouter(app)
 
@@ -24,4 +30,5 @@ func main() {
 //路由设置
 func registerRouter(router *gin.Engine) {
 	new(controller.HelloController).Router(router)
+	new(controller.MemberController).Router((router))
 }
